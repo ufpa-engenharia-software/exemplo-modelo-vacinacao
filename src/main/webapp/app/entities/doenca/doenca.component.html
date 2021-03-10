@@ -1,0 +1,83 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="exemploVacinacaoApp.doenca.home.title">Doencas</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-doenca" [routerLink]="['/doenca/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="exemploVacinacaoApp.doenca.home.createLabel">
+            Create a new Doenca
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="doencas?.length === 0">
+        <span jhiTranslate="exemploVacinacaoApp.doenca.home.notFound">No doencas found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="doencas && doencas.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="nome"><span jhiTranslate="exemploVacinacaoApp.doenca.nome">Nome</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="criado"><span jhiTranslate="exemploVacinacaoApp.doenca.criado">Criado</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dataPrimeiroCaso"><span jhiTranslate="exemploVacinacaoApp.doenca.dataPrimeiroCaso">Data Primeiro Caso</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="localPrimeiroCaso"><span jhiTranslate="exemploVacinacaoApp.doenca.localPrimeiroCaso">Local Primeiro Caso</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="paisPrimeiroCasoNome"><span jhiTranslate="exemploVacinacaoApp.doenca.paisPrimeiroCaso">Pais Primeiro Caso</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let doenca of doencas ;trackBy: trackId">
+                    <td><a [routerLink]="['/doenca', doenca.id, 'view']">{{ doenca.id }}</a></td>
+                    <td>{{ doenca.nome }}</td>
+                    <td>{{ doenca.criado | date:'medium' }}</td>
+                    <td>{{ doenca.dataPrimeiroCaso | date:'mediumDate' }}</td>
+                    <td>{{ doenca.localPrimeiroCaso | date:'mediumDate' }}</td>
+                    <td>
+                        <div *ngIf="doenca.paisPrimeiroCasoId">
+                            <a [routerLink]="['/pais', doenca.paisPrimeiroCasoId , 'view']" >{{ doenca.paisPrimeiroCasoNome }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/doenca', doenca.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/doenca', doenca.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(doenca)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="doencas && doencas.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

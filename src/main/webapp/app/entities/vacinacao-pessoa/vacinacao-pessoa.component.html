@@ -1,0 +1,93 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="exemploVacinacaoApp.vacinacaoPessoa.home.title">Vacinacao Pessoas</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-vacinacao-pessoa" [routerLink]="['/vacinacao-pessoa/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="exemploVacinacaoApp.vacinacaoPessoa.home.createLabel">
+            Create a new Vacinacao Pessoa
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="vacinacaoPessoas?.length === 0">
+        <span jhiTranslate="exemploVacinacaoApp.vacinacaoPessoa.home.notFound">No vacinacaoPessoas found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="vacinacaoPessoas && vacinacaoPessoas.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="quando"><span jhiTranslate="exemploVacinacaoApp.vacinacaoPessoa.quando">Quando</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="cns"><span jhiTranslate="exemploVacinacaoApp.vacinacaoPessoa.cns">Cns</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="codigoProfissional"><span jhiTranslate="exemploVacinacaoApp.vacinacaoPessoa.codigoProfissional">Codigo Profissional</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="pessoaNome"><span jhiTranslate="exemploVacinacaoApp.vacinacaoPessoa.pessoa">Pessoa</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="vacinaNome"><span jhiTranslate="exemploVacinacaoApp.vacinacaoPessoa.vacina">Vacina</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="fabricanteNome"><span jhiTranslate="exemploVacinacaoApp.vacinacaoPessoa.fabricante">Fabricante</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let vacinacaoPessoa of vacinacaoPessoas ;trackBy: trackId">
+                    <td><a [routerLink]="['/vacinacao-pessoa', vacinacaoPessoa.id, 'view']">{{ vacinacaoPessoa.id }}</a></td>
+                    <td>{{ vacinacaoPessoa.quando | date:'mediumDate' }}</td>
+                    <td>{{ vacinacaoPessoa.cns }}</td>
+                    <td>{{ vacinacaoPessoa.codigoProfissional }}</td>
+                    <td>
+                        <div *ngIf="vacinacaoPessoa.pessoaId">
+                            <a [routerLink]="['/pessoa', vacinacaoPessoa.pessoaId , 'view']" >{{ vacinacaoPessoa.pessoaNome }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="vacinacaoPessoa.vacinaId">
+                            <a [routerLink]="['/vacina', vacinacaoPessoa.vacinaId , 'view']" >{{ vacinacaoPessoa.vacinaNome }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="vacinacaoPessoa.fabricanteId">
+                            <a [routerLink]="['/fabricante', vacinacaoPessoa.fabricanteId , 'view']" >{{ vacinacaoPessoa.fabricanteNome }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/vacinacao-pessoa', vacinacaoPessoa.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/vacinacao-pessoa', vacinacaoPessoa.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(vacinacaoPessoa)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="vacinacaoPessoas && vacinacaoPessoas.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

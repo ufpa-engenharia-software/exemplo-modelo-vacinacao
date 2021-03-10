@@ -1,0 +1,58 @@
+
+entity Pais {
+	nome String
+    sigla String
+}
+
+entity Fabricante {
+	nome String
+    criado ZonedDateTime
+}
+
+entity Vacina {	
+    nome String    
+    criada ZonedDateTime    
+}
+
+entity Doenca {
+	
+    nome String
+    criado ZonedDateTime
+    dataPrimeiroCaso LocalDate
+  	localPrimeiroCaso LocalDate
+    
+}
+
+entity Pessoa {
+	nome String
+    dataNascimento LocalDate    
+}
+
+entity VacinacaoPessoa{
+	// quem é a pessoa
+    // qual vacina tomou
+    quando LocalDate
+	cns String
+    codigoProfissional String
+}
+
+
+relationship ManyToOne {
+    VacinacaoPessoa{pessoa(nome)} to Pessoa  
+    VacinacaoPessoa{vacina(nome)} to Vacina  
+    VacinacaoPessoa{fabricante(nome)} to Fabricante     
+    Vacina{doenca(nome)} to Doenca
+    Fabricante{pais(nome)} to Pais
+    Doenca{paisPrimeiroCaso(nome)} to Pais
+    
+}
+
+relationship ManyToMany {
+	Fabricante{vacinas(nome)} to Vacina{fabricantes(nome)}
+}
+
+// Set pagination options
+paginate * with pagination
+dto * with mapstruct
+service all with serviceImpl
+filter *
