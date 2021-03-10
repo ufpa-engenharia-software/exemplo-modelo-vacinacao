@@ -7,6 +7,12 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
+        "pais": "Pais",
+        "fabricante": "Fabricante",
+        "vacina": "Vacina",
+        "doenca": "Doenca",
+        "pessoa": "Pessoa",
+        "vacinacaoPessoa": "Vacinacao Pessoa",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

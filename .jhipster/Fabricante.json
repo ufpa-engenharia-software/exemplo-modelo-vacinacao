@@ -1,0 +1,41 @@
+{
+  "name": "Fabricante",
+  "fields": [
+    {
+      "fieldName": "nome",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "criado",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "pais",
+      "otherEntityRelationshipName": "fabricante",
+      "relationshipName": "pais",
+      "otherEntityField": "nome"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "vacina",
+      "otherEntityRelationshipName": "fabricantes",
+      "relationshipName": "vacinas",
+      "otherEntityField": "nome",
+      "ownerSide": true
+    }
+  ],
+  "changelogDate": "20210310135030",
+  "entityTableName": "fabricante",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

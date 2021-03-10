@@ -1,0 +1,41 @@
+{
+  "name": "Doenca",
+  "fields": [
+    {
+      "fieldName": "nome",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "criado",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "dataPrimeiroCaso",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "localPrimeiroCaso",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "pais",
+      "otherEntityRelationshipName": "doenca",
+      "relationshipName": "paisPrimeiroCaso",
+      "otherEntityField": "nome"
+    }
+  ],
+  "changelogDate": "20210310135230",
+  "entityTableName": "doenca",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
